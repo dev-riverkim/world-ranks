@@ -10,13 +10,12 @@ const getCountry = async (id) => {
 };
 
 const Country = ({ country }) => {
+  console.log(country);
   const [borders, setBorders] = useState([]);
 
   const getBorders = async () => {
-    if (country.borders) {
-      const borders = await Promise.all(country.borders.map((border) => getCountry(border)));
-      setBorders(borders);
-    }
+    const borders = await Promise.all(country.borders.map((border) => getCountry(border)));
+    setBorders(borders);
   };
 
   useEffect(() => {
@@ -84,7 +83,6 @@ const Country = ({ country }) => {
                 {borders.map(({ flag, name }) => (
                   <div className={styles.details_panel_borders_country}>
                     <img src={flag} alt={name}></img>
-
                     <div className={styles.details_panel_borders_name}>{name}</div>
                   </div>
                 ))}
