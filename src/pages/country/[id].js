@@ -10,12 +10,13 @@ const getCountry = async (id) => {
 };
 
 const Country = ({ country }) => {
-  console.log(country);
   const [borders, setBorders] = useState([]);
 
   const getBorders = async () => {
-    const borders = await Promise.all(country.borders.map((border) => getCountry(border)));
-    setBorders(borders);
+    if (country.borders) {
+      const borders = await Promise.all(country.borders.map((border) => getCountry(border)));
+      setBorders(borders);
+    }
   };
 
   useEffect(() => {
@@ -58,12 +59,12 @@ const Country = ({ country }) => {
 
             <div className={styles.details_panel_row}>
               <div className={styles.details_panel_label}>Languages</div>
-              <div className={styles.details_panel_value}>{country.languages.map(({ name }) => name).join(", ")}</div>
+              <div className={styles.details_panel_value}>{country.languages.map(({ name }) => name).join(", ") || "none"}</div>
             </div>
 
             <div className={styles.details_panel_row}>
               <div className={styles.details_panel_label}>Currencies</div>
-              <div className={styles.details_panel_value}>{country.currencies.map(({ name }) => name).join(", ")}</div>
+              <div className={styles.details_panel_value}>{country.currencies.map(({ name }) => name).join(", ") || "none"}</div>
             </div>
 
             <div className={styles.details_panel_row}>
@@ -83,6 +84,7 @@ const Country = ({ country }) => {
                 {borders.map(({ flag, name }) => (
                   <div className={styles.details_panel_borders_country}>
                     <img src={flag} alt={name}></img>
+
                     <div className={styles.details_panel_borders_name}>{name}</div>
                   </div>
                 ))}
